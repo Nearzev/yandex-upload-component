@@ -102,6 +102,7 @@ const YandexDiskUploader: React.FC = () => {
                         <p>Загрузите сюда ваши файлы (от 1 до 100 файлов)</p>
                     </div>
                     {uploading && <p>Загрузка...</p>}
+                    <div>{accessToken}</div>
                 </div>
             )}
         </div>
