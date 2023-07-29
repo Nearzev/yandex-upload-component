@@ -8,24 +8,27 @@ const YandexDiskUploader: React.FC = () => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
 
     const getUploadURL = async (accessToken: string, fileName: string) => {
-        const UPLOAD_URL = "https://cloud-api.yandex.net/v1/disk/resources/upload";
-    
+        const UPLOAD_URL = "https://cloud-api.yandex.net/v1/disk/resources/upload/";
+
         try {
-            const response = await axios.post(
+            const response = await axios.get(
                 UPLOAD_URL,
-                {},
                 {
                     headers: {
                         Authorization: `OAuth ${accessToken}`,
                     },
                     params: {
-                        path: `/UploadedFiles/${fileName}`, 
-                        overwrite: "true",
+                        path: `/${fileName}`,
+                        overwrite: true,
                     },
                 }
             );
-    
+
             const uploadUrl = response.data.href;
+            if (!uploadUrl) {
+                console.error("Failed to get upload URL");
+                throw new Error("Failed to get upload URL");
+            }
             return uploadUrl;
         } catch (error: any) {
             console.error("Error getting upload URL:", error);
@@ -39,11 +42,14 @@ const YandexDiskUploader: React.FC = () => {
 
             for (const file of files) {
                 const uploadUrl = await getUploadURL(token, file.name);
+                if (!uploadUrl) {
+                    return;
+                }
 
                 const formData = new FormData();
                 formData.append("file", file);
 
-                await axios.put(uploadUrl, formData); 
+                await axios.put(uploadUrl, formData);
             }
 
             alert("Upload successful!");
@@ -102,7 +108,6 @@ const YandexDiskUploader: React.FC = () => {
                         <p>Загрузите сюда ваши файлы (от 1 до 100 файлов)</p>
                     </div>
                     {uploading && <p>Загрузка...</p>}
-                    <div>{accessToken}</div>
                 </div>
             )}
         </div>
