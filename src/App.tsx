@@ -1,10 +1,11 @@
 import React from "react";
 import YandexDiskUploader from "./Components/YandexDiskUploader";
+import './App.css' 
 
 const App = () => {
   return (
-    <div>
-      <h1>Yandex.Disk File Uploader</h1>
+    <div className='container'>
+      <h1>Загрузите ваши файлы</h1>
       <YandexDiskUploader />
     </div>
   );

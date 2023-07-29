@@ -52,10 +52,10 @@ const YandexDiskUploader: React.FC = () => {
                 await axios.put(uploadUrl, formData);
             }
 
-            alert("Upload successful!");
+            alert("Файл загружен!");
         } catch (error) {
             console.error("Error uploading files:", error);
-            alert("Upload failed!");
+            alert("Ошибка загрузки файла!");
         } finally {
             setUploading(false);
         }
@@ -66,10 +66,10 @@ const YandexDiskUploader: React.FC = () => {
             if (accessToken) {
                 handleUpload(acceptedFiles, accessToken);
             } else {
-                alert("Access token not available. Please authenticate first.");
+                alert("Пожалуйста авторизуйтесь");
             }
         } else {
-            alert("Please upload 1 to 100 files at a time.");
+            alert("Пожалуйста загружайте от 1 до 100 файлов за один раз");
         }
     };
 
@@ -100,7 +100,7 @@ const YandexDiskUploader: React.FC = () => {
     return (
         <div>
             {!accessToken ? (
-                <button onClick={redirectToYandexAuth}>Войдите с помощью Яндекса</button>
+                <button className="button" onClick={redirectToYandexAuth}>Войдите с помощью Яндекса</button>
             ) : (
                 <div>
                     <div {...getRootProps()} style={dropzoneStyles}>
